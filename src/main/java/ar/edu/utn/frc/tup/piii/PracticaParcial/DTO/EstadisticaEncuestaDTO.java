@@ -1,0 +1,15 @@
+package ar.edu.utn.frc.tup.piii.PracticaParcial.DTO;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.util.List;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class EstadisticaEncuestaDTO {
+    private Long encuestaId;
+    private String tituloEncuesta;
+    private List<EstadisticaPreguntaDTO> estadisticasPreguntas;
+}

@@ -9,16 +9,22 @@ import java.time.LocalDateTime;
 @Data
 public class Respuesta {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "pregunta_id")
     private Pregunta pregunta;
 
     private String contenido;
 
-    @Column(name = "fecha")
-    private LocalDateTime fecha;
+    @Column(name = "fecha_respuesta")
+    private LocalDateTime fechaRespuesta;
 
+    @PrePersist
+    public void Creado() {
+        fechaRespuesta = LocalDateTime.now();
+    }
 
 
 }
