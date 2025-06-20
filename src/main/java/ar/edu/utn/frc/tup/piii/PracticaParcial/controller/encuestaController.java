@@ -1,6 +1,9 @@
 package ar.edu.utn.frc.tup.piii.PracticaParcial.controller;
 
 import ar.edu.utn.frc.tup.piii.PracticaParcial.DTO.EncuestaDTO;
+import ar.edu.utn.frc.tup.piii.PracticaParcial.DTO.EncuestaDetalleDTO;
+import ar.edu.utn.frc.tup.piii.PracticaParcial.DTO.EstadisticaEncuestaDTO;
+import ar.edu.utn.frc.tup.piii.PracticaParcial.DTO.NuevaEncuestaDTO;
 import ar.edu.utn.frc.tup.piii.PracticaParcial.Models.Entities.Encuesta;
 import ar.edu.utn.frc.tup.piii.PracticaParcial.Models.Entities.Pregunta;
 import ar.edu.utn.frc.tup.piii.PracticaParcial.Services.EncuestaService;
@@ -18,52 +21,48 @@ public class encuestaController {
 
     private final EncuestaService encuestaService;
 
-
-    @PostMapping
-    public ResponseEntity<?> addEncuesta (@RequestBody Encuesta encuesta, Pregunta pregunta) {
+    @GetMapping
+    public ResponseEntity<List<EncuestaDTO>> getAllEncuestas() {
         try {
-            Encuesta newEncuesta= encuestaService.postEncuesta(encuesta,pregunta);
-            if (newEncuesta != null) {
-                return ResponseEntity.ok().body(newEncuesta);
-            }else {
-                return ResponseEntity.badRequest().build();
-            }
-
-
+            List<EncuestaDTO> encuestas = encuestaService.getAllEncuestas();
+            return ResponseEntity.ok(encuestas);
         } catch (Exception e) {
-            System.out.println("Error al crear la encuesta");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-
-
-    @GetMapping()
-    public ResponseEntity<List<Encuesta>> obtenerencuestas() {
-        try {
-            List<Encuesta> encuestas = encuestaService.getEncuestas();
-            if (!encuestas.isEmpty()) {
-                return ResponseEntity.ok().body(encuestas);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error al obtener encuestas");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<EncuestaDTO>> obtenerencuesta(@PathVariable Integer id) {
+    public ResponseEntity<EncuestaDetalleDTO> getEncuestaById(@PathVariable Long id) {
         try {
-            List<EncuestaDTO> resEnc = encuestaService.getEncuestasById(id);
-            return ResponseEntity.ok().body(resEnc);
-
+            EncuestaDetalleDTO encuesta = encuestaService.getEncuestaById(id);
+            return ResponseEntity.ok(encuesta);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
         } catch (Exception e) {
-            System.out.println("Error al obtener encuestas");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @PostMapping
+    public ResponseEntity<EncuestaDetalleDTO> crearEncuesta(@RequestBody NuevaEncuestaDTO nuevaEncuesta) {
+        try {
+            EncuestaDetalleDTO encuestaCreada = encuestaService.nuevaEncuesta(nuevaEncuesta);
+            return ResponseEntity.status(HttpStatus.CREATED).body(encuestaCreada);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/{id}/estadisticas")
+    public ResponseEntity<EstadisticaEncuestaDTO> getEstadisticasEncuesta(@PathVariable Long id) {
+        try {
+            EstadisticaEncuestaDTO estadisticas = encuestaService.getEstadisticaEncuestasById(id);
+            return ResponseEntity.ok(estadisticas);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 }

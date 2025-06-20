@@ -13,11 +13,8 @@ public interface RespuestaRepository extends JpaRepository<Respuesta, Integer> {
     @Query("SELECT r FROM Respuesta r WHERE DATE(r.fechaRespuesta) = CURRENT_DATE")
     List<Respuesta> findRespuestasDeHoy();
 
-    @Query("SELECT r FROM Respuesta r WHERE r.fechaRespuesta BETWEEN :desde AND :hasta")
-    List<Respuesta> findRespuestasByFechaBetween(
-            @Param("desde") LocalDateTime desde,
-            @Param("hasta") LocalDateTime hasta
-    );
+
+    List<Respuesta> findByFechaRespuestaBetween(LocalDateTime desde, LocalDateTime hasta);
 
     Long countByPreguntaId(Long preguntaId);
 }

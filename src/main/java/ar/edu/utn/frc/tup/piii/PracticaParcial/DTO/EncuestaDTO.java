@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class EncuestaDTO {
     private Long id;
     private String titulo;
-    private int cantiadpreguntas;
+    private int cantiadPreguntas;
     private int cantidadRespuestas;
 }

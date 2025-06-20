@@ -28,11 +28,11 @@ public class RespuestaServiceImpl implements RespuestaService {
     public void nuevaRespuesta(NuevaRespuestaDTO nuevaRespuesta) {
         List<Respuesta> respuestas = nuevaRespuesta.getRespuestas().stream()
                 .map(RespuestaDTO -> {
-            Pregunta pregunta = preguntasRepository.findById(respuestaDTO.getPreguntaId())
+            Pregunta pregunta = preguntasRepository.findById(RespuestaDTO.getPreguntaId())
                     .orElseThrow( () -> new RuntimeException("Pregunta no encontrada"));
             Respuesta respuesta = new Respuesta();
             respuesta.setPregunta(pregunta);
-            respuesta.setContenido(respuestaDTO.getContido());
+            respuesta.setContenido(RespuestaDTO.getContido());
             respuesta.setFechaRespuesta(LocalDateTime.now());
 
             return respuesta;
@@ -53,7 +53,7 @@ public class RespuestaServiceImpl implements RespuestaService {
         LocalDateTime fechaDesde = desde.atStartOfDay();
         LocalDateTime fechaHasta = hasta.atTime(23, 59, 59);
 
-        return respuestaRepository.findRespuestasByFechaBetween(fechaDesde, fechaHasta).stream()
+        return respuestaRepository.findByFechaRespuestaBetween(fechaDesde, fechaHasta).stream()
                 .map(this::converToRespuestaConFechaDTO).collect(Collectors.toList());
     }
 
