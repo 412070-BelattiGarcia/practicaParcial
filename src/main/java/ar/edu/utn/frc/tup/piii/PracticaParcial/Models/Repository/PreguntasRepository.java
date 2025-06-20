@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface PreguntasRepository extends JpaRepository<Pregunta, Integer> {
+public interface PreguntasRepository extends JpaRepository<Pregunta, Long> {
 
     List<Pregunta> findByEncuestaId(Long encuestaId);
 

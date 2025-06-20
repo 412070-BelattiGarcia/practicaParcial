@@ -8,12 +8,11 @@ import ar.edu.utn.frc.tup.piii.PracticaParcial.Models.Repository.PreguntasReposi
 import ar.edu.utn.frc.tup.piii.PracticaParcial.Models.Repository.RespuestaRepository;
 import ar.edu.utn.frc.tup.piii.PracticaParcial.Services.RespuestaService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +31,7 @@ public class RespuestaServiceImpl implements RespuestaService {
                     .orElseThrow( () -> new RuntimeException("Pregunta no encontrada"));
             Respuesta respuesta = new Respuesta();
             respuesta.setPregunta(pregunta);
-            respuesta.setContenido(RespuestaDTO.getContido());
+            respuesta.setContenido(RespuestaDTO.getContenido());
             respuesta.setFechaRespuesta(LocalDateTime.now());
 
             return respuesta;

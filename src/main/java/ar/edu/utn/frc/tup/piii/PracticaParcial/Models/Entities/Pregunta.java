@@ -19,6 +19,7 @@ public class Pregunta {
     @JoinColumn(name = "encuesta_id")
     private Encuesta encuesta;
 
+
     @OneToMany
     private List<Pregunta> preguntas;
 

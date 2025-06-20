@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface RespuestaRepository extends JpaRepository<Respuesta, Integer> {
+public interface RespuestaRepository extends JpaRepository<Respuesta, Long> {
     @Query("SELECT r FROM Respuesta r WHERE DATE(r.fechaRespuesta) = CURRENT_DATE")
     List<Respuesta> findRespuestasDeHoy();
 
